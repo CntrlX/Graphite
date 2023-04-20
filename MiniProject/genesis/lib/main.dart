@@ -12,11 +12,11 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
-        home: TreeViewPage(),
+        home: nnModelViewPageClass(),
       );
 }
 
-class TreeViewPage extends StatefulWidget {
+class nnModelViewPageClass extends StatefulWidget {
   @override
   nnModelViewPage createState() => nnModelViewPage();
 }
