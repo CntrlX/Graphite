@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:genesis/pages/NNmodelDesign.dart';
+import 'package:genesis/pages/NNmodelVisual.dart';
 import 'pages/NNmodelSystem.dart';
 
 void main() {
@@ -14,5 +16,8 @@ class MyApp extends StatelessWidget {
 
 class nnModelViewPageClass extends StatefulWidget {
   @override
-  nnModelViewPage createState() => nnModelViewPage();
+  // nnModelViewPage createState() => nnModelViewPage();
+  LayeredGraphViewPageState createState() => LayeredGraphViewPageState();
+  // MyCustomWidget createState() => MyCustomWidget();
+  // NNModelSystemScreenState createState() => NNModelSystemScreenState();
 }
