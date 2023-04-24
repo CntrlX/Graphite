@@ -5,12 +5,13 @@ class LoginState extends State {
   final _formKey = GlobalKey<FormState>();
   late String _username;
   late String _password;
+  bool loginPage = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login Page'),
+        title: loginPage ? Text('Login Page') : Text('Register Page'),
         centerTitle: true,
       ),
       body: Center(
