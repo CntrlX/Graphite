@@ -38,6 +38,33 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAV8ed1n73-dGIa7krpZ0eCOhv4J1Uu718",
+      authDomain: "genesis-82adf.firebaseapp.com",
+      projectId: "genesis-82adf",
+      storageBucket: "genesis-82adf.appspot.com",
+      messagingSenderId: "926709981503",
+      appId: "1:926709981503:web:249359d069915e01e2f38a",
+      measurementId: "G-CMZKNXWVR3"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+
+
 </head>
 <body>
   <script>

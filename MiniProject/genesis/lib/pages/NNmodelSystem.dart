@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
+import 'package:genesis/libraries/designLibrary.dart' as design;
 
 class LayeredGraphViewPageState extends State {
   @override
@@ -13,49 +14,37 @@ class LayeredGraphViewPageState extends State {
         Wrap(
           children: [
             Container(
-              width: 100,
-              child: TextFormField(
-                initialValue: builder.nodeSeparation.toString(),
-                decoration: InputDecoration(labelText: 'Node Separation'),
-                onChanged: (text) {
-                  builder.nodeSeparation = int.tryParse(text) ?? 100;
-                  this.setState(() {});
-                },
+              decoration: BoxDecoration(
+                color: design.mainColor,
+                borderRadius: design.level1BorderRadius,
+                boxShadow: [
+                  BoxShadow(color: design.mainColor, spreadRadius: 1),
+                ],
+              ),
+              height: 50,
+              width: 700,
+              child: Row(
+                children: [
+                  Container(
+                    padding: design.level1Padding,
+                    child: InkWell(
+                      borderRadius: design.level2BorderRadius,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              final node12 = Node.Id(r.nextInt(100));
+                              var edge = graph.getNodeAtPosition(
+                                  r.nextInt(graph.nodeCount()));
+                              print(edge);
+                              graph.addEdge(edge, node12);
+                            });
+                          },
+                          child: Icon(Icons.add)),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Container(
-              width: 100,
-              child: TextFormField(
-                initialValue: builder.levelSeparation.toString(),
-                decoration: InputDecoration(labelText: 'Level Separation'),
-                onChanged: (text) {
-                  builder.levelSeparation = int.tryParse(text) ?? 100;
-                  this.setState(() {});
-                },
-              ),
-            ),
-            Container(
-              width: 100,
-              child: TextFormField(
-                initialValue: builder.orientation.toString(),
-                decoration: InputDecoration(labelText: 'Orientation'),
-                onChanged: (text) {
-                  builder.orientation = int.tryParse(text) ?? 100;
-                  this.setState(() {});
-                },
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                final node12 = Node.Id(r.nextInt(100));
-                var edge =
-                    graph.getNodeAtPosition(r.nextInt(graph.nodeCount()));
-                print(edge);
-                graph.addEdge(edge, node12);
-                setState(() {});
-              },
-              child: Text('Add'),
-            )
           ],
         ),
         Expanded(
