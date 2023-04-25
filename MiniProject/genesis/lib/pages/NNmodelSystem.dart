@@ -5,76 +5,201 @@ import 'package:graphview/GraphView.dart';
 import 'package:genesis/libraries/designLibrary.dart' as design;
 
 class LayeredGraphViewPageState extends State {
+  int nodeNumber = 0;
+  int edgeNumberFrom = 0;
+  int edgeNumberTo = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Wrap(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: design.mainColor,
-                borderRadius: design.level1BorderRadius,
-                boxShadow: [
-                  BoxShadow(color: design.mainColor, spreadRadius: 1),
-                ],
-              ),
-              height: 50,
-              width: 700,
-              child: Row(
-                children: [
-                  Container(
-                    padding: design.level1Padding,
-                    child: InkWell(
-                      borderRadius: design.level2BorderRadius,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              final node12 = Node.Id(r.nextInt(100));
-                              var edge = graph.getNodeAtPosition(
-                                  r.nextInt(graph.nodeCount()));
-                              print(edge);
-                              graph.addEdge(edge, node12);
-                            });
-                          },
-                          child: Icon(Icons.add)),
+        body: CustomPaint(
+      painter: BackgroundPaint(),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          Wrap(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: design.mainColor,
+                  borderRadius: design.level1BorderRadius,
+                  boxShadow: [
+                    BoxShadow(color: design.mainColor, spreadRadius: 1),
+                  ],
+                ),
+                height: 50,
+                width: 700,
+                child: Row(
+                  children: [
+                    Container(
+                      padding: design.level1Padding,
+                      child: InkWell(
+                        borderRadius: design.level2BorderRadius,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                final node12 = Node.Id(nodeNumber);
+                                var edge = graph.getNodeAtPosition(
+                                    r.nextInt(graph.nodeCount()));
+                                print(edge);
+                                graph.addEdge(edge, node12);
+                              });
+                            },
+                            child: Text('Add random')),
+                      ),
                     ),
-                  ),
-                ],
+                    Container(
+                      padding: design.level1Padding,
+                      child: InkWell(
+                        borderRadius: design.level2BorderRadius,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: Colors.grey[900],
+                                    title: Text(
+                                      'Add node to the system',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    content: Text(
+                                      'Select the node number',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    actions: <Widget>[
+                                      TextField(
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          nodeNumber = int.parse(value);
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      TextButton(
+                                        child: Text(
+                                          'Add',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            final node12 = Node.Id(nodeNumber);
+                                            graph.addNode(node12);
+                                          });
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Text('Add node')),
+                      ),
+                    ),
+                    Container(
+                      padding: design.level1Padding,
+                      child: InkWell(
+                        borderRadius: design.level2BorderRadius,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: Colors.grey[900],
+                                    title: Text(
+                                      'Add Edge ',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    content: Text(
+                                      'Select the node number',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    actions: <Widget>[
+                                      TextField(
+                                        decoration: InputDecoration(
+                                          hintText: 'From',
+                                        ),
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          edgeNumberFrom = int.parse(value);
+                                        },
+                                      ),
+                                      TextField(
+                                        decoration: InputDecoration(
+                                          hintText: 'To',
+                                        ),
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          edgeNumberTo = int.parse(value);
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      TextButton(
+                                        child: Text(
+                                          'Add',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            graph.addEdge(
+                                                Node.Id(edgeNumberFrom),
+                                                Node.Id(edgeNumberTo));
+                                          });
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Text('Add Edge')),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-        Expanded(
-          child: InteractiveViewer(
-              constrained: false,
-              boundaryMargin: EdgeInsets.all(100),
-              minScale: 0.0001,
-              maxScale: 10.6,
-              child: GraphView(
-                graph: graph,
-                algorithm: SugiyamaAlgorithm(builder),
-                paint: Paint()
-                  ..color = Colors.green
-                  ..strokeWidth = 1
-                  ..style = PaintingStyle.stroke
-                  ..strokeCap = StrokeCap.round,
-                builder: (Node node) {
-                  // I can decide what widget should be shown here based on the id
-                  var a = node.key!.value as int?;
-                  if (a == 1) {
-                    return startWidget(a);
-                  } else if (a == 1000) {
-                    return endWidget(a);
-                  } else {
-                    return rectangleWidget(a);
-                  }
-                },
-              )),
-        ),
-      ],
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: InteractiveViewer(
+                constrained: false,
+                boundaryMargin: EdgeInsets.all(100),
+                minScale: 0.0001,
+                maxScale: 10.6,
+                child: GraphView(
+                  graph: graph,
+                  algorithm: SugiyamaAlgorithm(builder),
+                  paint: Paint()
+                    ..color = Colors.green
+                    ..strokeWidth = 2
+                    ..style = PaintingStyle.fill
+                    ..strokeCap = StrokeCap.round,
+                  builder: (Node node) {
+                    // I can decide what widget should be shown here based on the id
+                    var a = node.key!.value as int?;
+                    if (a == 1) {
+                      return startWidget(a);
+                    } else if (a == 1000) {
+                      return endWidget(a);
+                    } else {
+                      return rectangleWidget(a);
+                    }
+                  },
+                )),
+          ),
+        ],
+      ),
     ));
   }
 
@@ -142,5 +267,46 @@ class LayeredGraphViewPageState extends State {
     builder
       ..levelSeparation = (20)
       ..orientation = SugiyamaConfiguration.ORIENTATION_LEFT_RIGHT;
+  }
+}
+
+class BackgroundPaint extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final height = size.height;
+    final width = size.width;
+    final paint = Paint();
+
+    Path mainBackground = Path();
+    mainBackground.addRect(Rect.fromLTRB(0, 0, width, height));
+    paint.color = Colors.grey;
+    paint.style = PaintingStyle.stroke;
+    paint.strokeWidth = 0.1;
+
+    final heightLine = height ~/ 50; // your Horizontal line
+    final widthLine = (width ~/ 100); // your Vertical line
+
+    for (int i = 1; i < height; i++) {
+      if (i % heightLine == 0) {
+        Path linePath = Path();
+
+        linePath
+            .addRect(Rect.fromLTRB(0, i.toDouble(), width, (i + 2).toDouble()));
+        canvas.drawPath(linePath, paint);
+      }
+    }
+    for (int i = 1; i < width; i++) {
+      if (i % widthLine == 0) {
+        Path linePath = Path();
+        linePath.addRect(
+            Rect.fromLTRB(i.toDouble(), 0, (i + 2).toDouble(), height));
+        canvas.drawPath(linePath, paint);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return oldDelegate != this;
   }
 }
