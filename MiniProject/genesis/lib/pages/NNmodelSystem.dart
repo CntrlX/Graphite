@@ -71,6 +71,12 @@ class LayeredGraphViewPageState extends State {
                                     ),
                                     actions: <Widget>[
                                       TextField(
+                                        decoration: InputDecoration(
+                                          hintText: 'Node number',
+                                          fillColor: Colors.white,
+                                          hintStyle:
+                                              TextStyle(color: Colors.white),
+                                        ),
                                         keyboardType: TextInputType.number,
                                         onChanged: (value) {
                                           nodeNumber = int.parse(value);
@@ -123,6 +129,9 @@ class LayeredGraphViewPageState extends State {
                                       TextField(
                                         decoration: InputDecoration(
                                           hintText: 'From',
+                                          fillColor: Colors.white,
+                                          hintStyle:
+                                              TextStyle(color: Colors.white),
                                         ),
                                         keyboardType: TextInputType.number,
                                         onChanged: (value) {
@@ -132,6 +141,9 @@ class LayeredGraphViewPageState extends State {
                                       TextField(
                                         decoration: InputDecoration(
                                           hintText: 'To',
+                                          fillColor: Colors.white,
+                                          hintStyle:
+                                              TextStyle(color: Colors.white),
                                         ),
                                         keyboardType: TextInputType.number,
                                         onChanged: (value) {
